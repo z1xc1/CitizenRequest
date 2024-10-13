@@ -18,6 +18,7 @@ if ($conn->connect_error) {
 
 $reference_id = $_GET['reference_id'];
 
+// Prepared statement to prevent SQL injection
 $sql = "SELECT * FROM Request WHERE reference_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $reference_id);
@@ -98,28 +99,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tr>
             <tr>
                 <td>Submitted Date:</td>
-                <td><?php echo htmlspecialchars($request['submitted_date']); ?></td>
+            <td><?php 
+                $submittedDate = new DateTime($request['submitted_date']);
+                echo $submittedDate->format('F/j/Y'); 
+            ?></td>
+            </tr>
+             <tr>
+            <td>Time:</td>
+            <td><?php 
+                echo $submittedDate->format('g:i a');
+            ?></td>
             </tr>
             <tr>
-                <td>Last Updated:</td>
-                <td><?php echo htmlspecialchars($request['last_updated']); ?></td>
+            <td>Last Updated:</td>
+            <td>
+                <?php 
+                    $lastUpdatedDate = new DateTime($request['last_updated']);
+                    echo $lastUpdatedDate->format('F/j/Y'); 
+                ?>
+            </td>
+            <tr>
+            <td> Time </td>
+             <td>   <?php 
+                    echo $lastUpdatedDate->format('g:i a');
+                ?>
+            </td>
+            </tr>
             </tr>
         </table>
 
-      <!-- Display Images if available -->
-<div class="images-container">
-    <h3>Attached Images</h3>
-    <div class="image-gallery">
-        <?php if (!empty($request['images']) && $request['images'] !== 'NULL'): // Ensure it's not NULL ?>
-            <?php $images = explode(',', $request['images']); ?>
-            <?php foreach ($images as $image): ?>
-                <img src="../uploads/<?php echo htmlspecialchars($image); ?>" class="request-image" style="width:100px; margin-right: 5px; cursor: pointer;" alt="Attached Image" onclick="openModal(this.src)">
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No image attached.</p>
-        <?php endif; ?>
-    </div>
-</div>
+        <!-- Display Images if available -->
+        <div class="images-container">
+            <h3>Attached Images</h3>
+            <div class="image-gallery">
+                <?php if (!empty($request['images']) && $request['images'] !== 'NULL'): ?>
+                    <?php $images = explode(',', $request['images']); ?>
+                    <?php foreach ($images as $image): ?>
+                        <img src="../uploads/<?php echo htmlspecialchars($image); ?>" class="request-image" style="width:100px; margin-right: 5px; cursor: pointer;" alt="Attached Image" onclick="openModal(this.src)">
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No image attached.</p>
+                <?php endif; ?>
+            </div>
+        </div>
 
         <div class="statuschange">
             <h3>Update Status</h3>
@@ -128,33 +150,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="status">Status:</label>
                     <select name="status" id="status" <?php echo ($current_status === 'Completed' || $current_status === 'Cancelled') ? 'disabled' : ''; ?>>
                         <option value="">Change Status</option>
-                        <?php foreach ($all_statuses as $status) { ?>
+                        <?php foreach ($all_statuses as $status): ?>
                             <option value="<?php echo $status; ?>" <?php if ($status === $current_status) echo 'selected'; ?>><?php echo $status; ?></option>
-                        <?php } ?>
+                        <?php endforeach; ?>
                     </select>
-                </div>
-        
-                <div class="updaterequeststatus">
-                    <?php if ($current_status !== 'Completed' && $current_status !== 'Cancelled') { ?>
-                        <button type="submit">Update</button>
-                    <?php } else { ?>
-                        <p>Status cannot be changed when it is Completed or Cancelled.</p>
-                    <?php } ?>
-                </div>
+                    <div class="updaterequeststatus">
+                        <?php if ($current_status !== 'Completed' && $current_status !== 'Cancelled'): ?>
+                            <button type="submit">Update</button>
+                        <?php else: ?>
+                            <p>Status cannot be changed.</p>
+                        <?php endif; ?>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<div class="backtoreview">
+    <a href="../reviewsubmissions.php">Back to Review Submissions</a>
+</div>
+
 <!-- Modal for Zoomed Image -->
 <div id="myModal" class="modal" style="display:none;">
     <span class="close" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="modalImage" alt="Zoomed Image">
-</div>
-
-<div class="backtoreview">
-    <a href="../reviewsubmissions.php">Back to Review Submissions</a>
 </div>
 
 <script>

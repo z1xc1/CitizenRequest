@@ -4,7 +4,7 @@ if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
 }
-$email = $_SESSION['email']; // Get the email of the logged-in user
+$email = $_SESSION['email']; 
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +26,7 @@ $email = $_SESSION['email']; // Get the email of the logged-in user
         <aside id="sidebar">
             <div class="toggle">
                 <div class="logo">
-                    <img src="images/iconx.png">
-                    <h2>Welcome</h2>
+                    <img src="images/crfms.png">
                 </div>
                 <div class="close" id="toggle-btn">
                     <span class="material-icons-sharp">menu_open</span>
@@ -43,7 +42,7 @@ $email = $_SESSION['email']; // Get the email of the logged-in user
                     <span class="material-icons-sharp">person_outline</span>
                     <h3>User</h3>
                 </a>
-                <a href="Announcement.html">
+                <a href="Announcement.php">
                     <span class="material-icons-sharp">campaign</span>
                     <h3>Announcement</h3>
                 </a>
@@ -79,9 +78,9 @@ $email = $_SESSION['email']; // Get the email of the logged-in user
                 <select id="topic" name="topic" required>
                     <option value="" disabled selected>Select a topic</option>
                     <option value="General Inquiry">General Inquiry</option>
-                    <option value="Technical Support">Technical Support</option>
-                    <option value="Feedback">Feedback</option>
+                    <option value="Infrastructure Issues">Infrastructure Issues</option>
                     <option value="Complaint">Complaint</option>
+                    <option value="Feedback">Feedback</option>
                 </select>
                 
                 <label for="description">Description:</label>

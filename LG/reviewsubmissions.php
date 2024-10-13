@@ -30,8 +30,8 @@ if ($conn->connect_error) {
 $sql_requests = "SELECT reference_id, email, topic, status, submitted_date FROM Request";
 $result_requests = $conn->query($sql_requests);
 
-// Fetch all feedbacks
-$sql_feedbacks = "SELECT email, topic, submitted_date FROM Feedback";
+// Fetch all feedbacks, including FeedbackID
+$sql_feedbacks = "SELECT FeedbackID, email, topic, submitted_date FROM Feedback";
 $result_feedbacks = $conn->query($sql_feedbacks);
 ?>
 
@@ -84,8 +84,7 @@ $result_feedbacks = $conn->query($sql_feedbacks);
     <aside id="sidebar">
         <div class="toggle">
             <div class="logo">
-                <img src="images/iconx.png" alt="Logo">
-                <h2>Welcome</h2>
+                <img src="images/crfms.png" alt="Logo">
             </div>
             <div class="close" id="toggle-btn">
                 <span class="material-icons-sharp">menu_open</span>
@@ -137,7 +136,6 @@ $result_feedbacks = $conn->query($sql_feedbacks);
                             echo "<td><a href='php/view_request.php?reference_id=" . $row['reference_id'] . "'>" . $row['reference_id'] . "</a></td>";
                             echo "<td>" . htmlspecialchars($row['email']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['topic']) . "</td>";
-                            // Wrap the status in a span with the class for styling
                             echo "<td><span class='" . strtolower($row['status']) . "'>" . htmlspecialchars($row['status']) . "</span></td>";
                             echo "<td>" . htmlspecialchars($row['submitted_date']) . "</td>";
                             echo "</tr>";
@@ -155,23 +153,26 @@ $result_feedbacks = $conn->query($sql_feedbacks);
             <table>
                 <thead>
                     <tr>
+                        <th>Feedback ID</th> <!-- New column for Feedback ID -->
                         <th>Email</th>
                         <th>Topic</th>
                         <th>Submitted Date</th>
                     </tr>
                 </thead>
                 <tbody>
+                <tbody>
                     <?php
                     if ($result_feedbacks->num_rows > 0) {
                         while($row = $result_feedbacks->fetch_assoc()) {
                             echo "<tr>";
+                            echo "<td><a href='php/view_feedback.php?feedback_id=" . htmlspecialchars($row['FeedbackID']) . "'>" . htmlspecialchars($row['FeedbackID']) . "</a></td>"; // Make Feedback ID clickable
                             echo "<td>" . htmlspecialchars($row['email']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['topic']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['submitted_date']) . "</td>";
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='3'>No feedbacks found.</td></tr>";
+                        echo "<tr><td colspan='4'>No feedbacks found.</td></tr>";
                     }
                     ?>
                 </tbody>

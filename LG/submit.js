@@ -17,8 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 showSuccessMessage(`Your submission was successful! Your reference ID is: ${data}`);
                 resetFormAndLocation();  
             } 
-            // Handle feedback response
-            else if (data.trim() === "Thank you for your feedback.") {  // Ensure the message is trimmed properly
+            // Handle Feedback ID response
+            else if (data.startsWith("FB-")) {
+                showSuccessMessage(`Your submission was successful! Your Feedback ID is: ${data}`);
+                resetFormAndLocation();  
+            }
+            // Handle generic feedback response
+            else if (data.trim() === "Thank you for your feedback.") { 
                 showSuccessMessage(data); // Show success message on webpage
                 resetFormAndLocation();  
             } 

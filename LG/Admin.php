@@ -74,8 +74,7 @@ $conn->close();
     <aside id="sidebar">
         <div class="toggle">
             <div class="logo">
-                <img src="images/iconx.png" alt="Logo">
-                <h2>Welcome</h2>
+                <img src="images/crfms.png" alt="Logo">
             </div>
             <div class="close" id="toggle-btn">
                 <span class="material-icons-sharp">menu_open</span>

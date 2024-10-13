@@ -36,7 +36,7 @@ $pendingRequestsQuery = "SELECT reference_id, email, topic, description, locatio
 $pendingRequestsResult = $conn->query($pendingRequestsQuery);
 
 // Query for user list
-$userListQuery = "SELECT firstname, lastname, email FROM usercredentials"; 
+$userListQuery = "SELECT username, firstname, lastname, email FROM usercredentials"; 
 $userListResult = $conn->query($userListQuery);
 
 // Query for feedback list
@@ -118,8 +118,7 @@ $submittedFeedbackCount = $conn->query("SELECT COUNT(*) FROM feedback")->fetch_r
         <aside id="sidebar">
             <div class="toggle">
                 <div class="logo">
-                    <img src="images/iconx.png">
-                    <h2>Welcome</h2>
+                    <img src="images/crfms.png">
                 </div>
                 <div class="close" id="toggle-btn">
                     <span class="material-icons-sharp">menu_open</span>
@@ -286,23 +285,32 @@ $submittedFeedbackCount = $conn->query("SELECT COUNT(*) FROM feedback")->fetch_r
                 <table>
                     <thead>
                         <tr>
+                            <th>Username</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         if ($userListResult->num_rows > 0) {
-                            while($row = $userListResult->fetch_assoc()) {
+                            while ($row = $userListResult->fetch_assoc()) {
                                 echo "<tr>";
+                                echo "<td>" . htmlspecialchars($row['username']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['firstname']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['lastname']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                                echo "<td>
+                                        <form action='delete_user.php' method='POST' onsubmit='return confirm(\"Are you sure you want to delete this user?\");'>
+                                            <input type='hidden' name='user_email' value='" . htmlspecialchars($row['email']) . "'>
+                                            <button type='submit' class='userdeletebtm'>Delete</button>
+                                        </form>
+                                    </td>"; // Add a delete button
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='3'>No users found.</td></tr>";
+                            echo "<tr><td colspan='4'>No users found.</td></tr>"; // Adjust colspan for actions
                         }
                         ?>
                     </tbody>

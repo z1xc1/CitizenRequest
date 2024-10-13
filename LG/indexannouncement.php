@@ -23,11 +23,11 @@
             </div>
 
             <div class="sidebar">
-                <a href="index.html" class="active" aria-current="page">
+                <a href="index.html">
                     <span class="material-symbols-outlined">favorite</span>                   
                      <h3>Welcome</h3>
                 </a>
-                <a href="indexannouncement.php">
+                <a href="indexannouncement.php" class="active" aria-current="page">
                     <span class="material-icons-sharp">campaign</span>
                     <h3>Announcements</h3>
                 </a>
@@ -37,8 +37,55 @@
 
         <!--Main content per page-->
         <div class="main--content">
-            <h1>Welcome to Citizen Request and Feedback</h1>
-            
+            <h1>Announcements</h1>
+            <div id="announcement-container">
+
+            <?php
+                // Connect to the database
+                $servername = "localhost"; 
+                $username = "root"; 
+                $password = ""; 
+                $dbname = "lgutestdb"; 
+
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $sql = "SELECT topic, description, images, created_at FROM announcements ORDER BY created_at DESC"; 
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // Output data for each row
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<div class="announcement-card">';
+                        echo '<h2>' . htmlspecialchars($row['topic']) . '</h2>';
+                        echo '<p>' . htmlspecialchars($row['description']) . '</p>';
+                        if (!empty($row['images'])) {
+                            echo '<img src="uploads/' . htmlspecialchars($row['images']) . '" alt="' . htmlspecialchars($row['topic']) . ' image">';
+                        }
+
+                        // Format created_at date and time
+                        $createdAt = new DateTime($row['created_at']);
+                        $formattedDate = $createdAt->format('F j, Y'); // e.g., "October 13, 2024"
+                        $formattedTime = $createdAt->format('g:i A'); // e.g., "10:25 AM"
+                        
+                        // Display formatted date and time
+                        echo '<p>Posted on: ' . htmlspecialchars($formattedDate) . ' at ' . htmlspecialchars($formattedTime) . '</p>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo '<p>No announcements found.</p>';
+                }
+
+                $conn->close();
+                ?>
+
+
+            </div>
         </div>
         
         <!-- Light/Dark Mode Toggle Button -->
@@ -114,7 +161,6 @@
             </form>
         </div>
     </div>
-    <iframe src="chatbot.html" style="border: none; width: 85%; height: 600px; position: fixed; bottom: 10px; right: 10px; z-index: 99"></iframe>
     <!-- Footer -->
     <footer>
         <div class="footer-content">

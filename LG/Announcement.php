@@ -1,23 +1,4 @@
-<?php
-session_set_cookie_params(0); 
-session_start();
-
-if (!isset($_SESSION['username'])) {
-    header('Location: AdminLogin.html');
-    exit();
-}
-
-$username = $_SESSION['username'];
-
-$conn = new mysqli("localhost", "root", "", "lgutestdb");
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-?>
-
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- user announcement webpage -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -42,9 +23,9 @@ if ($conn->connect_error) {
                     </span>
                 </div>
             </div>
-            
+
             <div class="sidebar">
-                <a href="Home.php" class="active">
+                <a href="Home.php">
                     <span class="material-icons-sharp">
                         home
                     </span>
@@ -56,7 +37,7 @@ if ($conn->connect_error) {
                     </span>
                     <h3>User</h3>
                 </a>
-                <a href="Announcement.php">
+                <a href="announcements.php" class="active">
                     <span class="material-icons-sharp">
                         campaign
                     </span>
@@ -88,27 +69,71 @@ if ($conn->connect_error) {
                 </a>
             </div>
         </aside>
-        
         <!--Sidebar end-->
-        <iframe src="chatbot.html" style="border: none; width: 70%; height: 600px; position: fixed; bottom: 10px; right: 10px; z-index: 1000"></iframe>
+
         <!--Main content per page-->
         <div class="main--content">
-            <h2>Home</h2>
-            
-        </div>
+            <h1>Announcements</h1>
+            <div id="announcement-container">
+
+            <?php
+                // Connect to the database
+                $servername = "localhost"; 
+                $username = "root"; 
+                $password = ""; 
+                $dbname = "lgutestdb"; 
+
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // Fetch announcements from the announcements table, sorted by created_at in descending order
+                    $sql = "SELECT topic, description, images, created_at FROM announcements ORDER BY created_at DESC"; 
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        // Output data for each row
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<div class="announcement-card">';
+                            echo '<h2>' . htmlspecialchars($row['topic']) . '</h2>';
+                            echo '<p>' . htmlspecialchars($row['description']) . '</p>';
+                            if (!empty($row['images'])) {
+                                echo '<img src="uploads/' . htmlspecialchars($row['images']) . '" alt="' . htmlspecialchars($row['topic']) . ' image">';
+                            }
+
+                            // Format created_at date and time
+                            $createdAt = new DateTime($row['created_at']);
+                            $formattedDate = $createdAt->format('F j, Y'); // e.g., "October 13, 2024"
+                            $formattedTime = $createdAt->format('g:i A'); // e.g., "10:25 AM"
+                            
+                            // Display formatted date and time
+                            echo '<p>Posted on: ' . htmlspecialchars($formattedDate) . ' at ' . htmlspecialchars($formattedTime) . '</p>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo '<p>No announcements found.</p>';
+                    }
+
+                $conn->close();
+                ?>
+
+
+            </div>
+            </div>
         <nav class="navigation">
-        <div class="user-info">
-                <span>Welcome, <?php echo htmlspecialchars($username); ?></span>
-        </div>
             <button id="theme-toggle" class="btn-theme-toggle">
                 <span class="material-symbols-outlined">light_mode</span>
             </button>
 
             <button class="btnLogin-popup"><a href="logout.php">Logout</button>
         </nav>
-
     </div>
 
     <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

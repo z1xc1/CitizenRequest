@@ -1,5 +1,6 @@
 :root {
     --color-text: #0b0c18;
+    --color-header: #0000;
     --color-background: #e8e9f7;
     --color-background-lighter: #ebecf7;
     --color-primary: #191d67;
@@ -14,6 +15,7 @@
 
 .dark-mode {
     --color-text: #e7e8f4;
+    --color-header: #ffff;
     --color-background: #080917;
     --color-primary: #989ce6;
     --color-secondary: #191f8a;
@@ -106,9 +108,14 @@ aside.minimized {
     width: 4rem; 
 }
 
-aside.minimized .logo h2, 
+aside.minimized  h2, 
 aside.minimized .sidebar h3 {
     display: none; 
+}
+aside.minimized .logo img {
+    width: 50px; /* Smaller size when sidebar is minimized */
+    height: auto;
+    object-fit: contain;
 }
 
 aside.minimized .sidebar a {
@@ -133,15 +140,22 @@ aside .toggle .logo {
     gap: 0.5rem;
 }
 
-aside .toggle .logo img {
-    width: 2rem;
-    height: 2rem;
+aside .logo img {
+    width: 10rem; 
+    height: auto; 
+    object-fit: contain;
+}
+aside.toggle .logo img {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
 }
 
 aside .toggle .close {
-    padding-right: 1rem;
     cursor: pointer; 
+    color: var(--color-text);
 }
+
 
 aside .sidebar {
     display: flex;
@@ -570,9 +584,6 @@ body.dark-mode {
     color: var(--color-text); /* Or another color that contrasts with the background */
 }
 
-
-
-
 /* Popup styling */
 .popup {
     position: fixed;
@@ -812,6 +823,16 @@ body.dark-mode {
 
 .user-list-section h2 {
 color: var(--color-text);
+}
+
+.userdeletebtm{
+background-color: var(--color-primary); 
+color: var(--color-white);
+margin-top: 0.5rem;
+padding: 0.5rem 2rem;
+border: none;
+border-radius: 4px;
+cursor: pointer;
 }
 
 table {
@@ -1096,6 +1117,94 @@ html {
     background-color: var(--color-secondary);
   }
 
+  label[for="image"] {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-header); /* Use your header color */
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+
+.viewAnnouncementsBtn {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    margin-top: 0.5rem;
+    padding: 0.5rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+.manageAnnouncements{
+    margin-top: 2rem;
+}
+/* Specific button styles */
+.deleteannouncementbtn {
+    background-color: red; /* Red for delete button */
+    color: var(--color-white);
+    margin-top: 0.5rem;
+    padding: 0.5rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.editannouncementbtn {
+    background-color: blue; /* Blue for edit button */
+    color: var(--color-white);
+    margin-top: 0.5rem;
+    padding: 0.5rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.deleteannouncementbtn:hover {
+    background-color: darkred; 
+}
+
+.editannouncementbtn:hover {
+    background-color: darkblue; 
+}
+
+
+
+/* Style for the upload button */
+#image {
+    display: inline-block;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#image:hover {
+    background-color: var(--color-background-lighter); 
+}
+
+/* Optional: To style the input file button specifically */
+input[type="file"]::-webkit-file-upload-button {
+    padding: 10px 16px;
+    font-size: 1rem;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: var(--color-secondary); 
+}
+
   /* review submissions*/
 .review--submission {
     margin-top: 2rem;
@@ -1120,7 +1229,22 @@ color: var(--color-text);
     max-width: 800px;
 }
 
+.view-feedback-container {
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--color-background-lighter);
+    border-radius: 15px;
+    box-shadow: var(--box-shadow);
+    max-width: 800px;
+}
+
 .view-request-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--color-primary);
+}
+
+.view-feedback-header {
     margin-bottom: 1.5rem;
     text-align: center;
     color: var(--color-primary);
@@ -1129,6 +1253,11 @@ color: var(--color-text);
 .view-request-header h2 {
     margin: 0;
 }
+
+.view-feedback-header h2 {
+    margin: 0;
+}
+
 
 .view-request-details {
     margin-bottom: 2rem;
@@ -1253,4 +1382,153 @@ color: var(--color-text);
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
+}
+
+
+.contact-info h2, .about-container h1, .about-content h2 {
+      color: var(--color-header);
+}
+
+  /* Contact Info Styles */
+  .contact-info {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--color-background-lighter);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
+  }
+  
+  .contact-info h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: var(--heading-color);
+  }
+  .about-container h3 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: var(--heading-color);
+  }
+  .contact-info p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+  
+  .contact-info p strong {
+    color: var(--text-color);
+  }
+  
+  .contact-info p:last-child {
+    margin-top: 20px;
+    font-style: italic;
+  }
+  
+  /* Main Heading Styles */
+  h1 {
+    text-align: center;
+    font-size: 36px;
+    color: var(--heading-color);
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive Styles for Contact Info */
+  @media (max-width: 768px) {
+    .contact-info {
+      padding: 15px;
+    }
+  
+    .contact-info h2 {
+      font-size: 24px;
+    }
+  
+    h1 {
+      font-size: 30px;
+    }
+  }
+  
+  /* About Container Styles */
+  .about-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: var(--color-background-lighter);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* About Container Heading Styles */
+  .about-container h2 {
+    text-align: center;
+    font-size: 36px;
+    color: var(--heading-color-h2);
+    margin-bottom: 20px;
+  }
+  
+  /* About Content Styles */
+  .about-content {
+    line-height: 1.8;
+    color: var(--text-color);
+  }
+  
+  .about-content h2 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 36px;
+    color: var(--heading-color-h2);
+  }
+  
+  .about-content p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+  }
+  
+  /* Responsive Styles for About Container */
+  @media (max-width: 768px) {
+    .about-container {
+      padding: 20px;
+    }
+  
+    .about-container h1 {
+      font-size: 30px;
+    }
+  
+    .about-content h2 {
+      font-size: 30px;
+    }
+  }
+
+
+ /* Announcement card styles */
+.announcement-card {
+    background-color: var(--color-background-lighter);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--color-text);
+}
+
+.announcement-card p {
+    font-size: 1rem;
+    margin-bottom: 16px;
+    color: var(--color-text); 
+}
+
+.announcement-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;       /* Make the image a block element */
+    margin: 16px auto;    /* Center the image horizontally */
 }

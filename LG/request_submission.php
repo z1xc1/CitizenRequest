@@ -24,9 +24,12 @@ $images = isset($_FILES['images']) ? $_FILES['images'] : null; // Check if image
 
 // Check if the topic is "Feedback"
 if ($topic === 'Feedback') {
+    // Generate a unique FeedbackID
+    $feedback_id = strtoupper(substr(bin2hex(random_bytes(4)), 0, 7)); // No "FB-" prefix here
+
     // Prepare and bind for feedback table
-    $stmt = $conn->prepare("INSERT INTO feedback (Email, Topic, Description, Location, Images, Submitted_date) VALUES (?, ?, ?, ?, ?, NOW())");
-    $stmt->bind_param("sssss", $email, $topic, $description, $location, $images['name']); 
+    $stmt = $conn->prepare("INSERT INTO feedback (FeedbackID, Email, Topic, Description, Location, Images, Submitted_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+    $stmt->bind_param("ssssss", $feedback_id, $email, $topic, $description, $location, $images['name']); 
 
     // Handle file upload
     if ($images && !empty($images['name'])) {
@@ -40,7 +43,7 @@ if ($topic === 'Feedback') {
 
     // Execute the insert query
     if ($stmt->execute()) {
-        echo "Thank you for your feedback."; // Return success message
+        echo "FB-" . $feedback_id; // Add the "FB-" prefix only here
     } else {
         echo "Error inserting feedback: " . $stmt->error; 
     }

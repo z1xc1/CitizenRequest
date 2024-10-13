@@ -67,8 +67,7 @@ $conn->close();
     <aside id="sidebar">
         <div class="toggle">
             <div class="logo">
-                <img src="images/iconx.png" alt="Logo">
-                <h2>Welcome</h2>
+                <img src="images/crfms.png" alt="Logo">
             </div>
             <div class="close" id="toggle-btn">
                 <span class="material-icons-sharp">menu_open</span>
@@ -80,11 +79,11 @@ $conn->close();
                 <span class="material-icons-sharp">home</span>
                 <h3>Home</h3>
             </a>
-            <a href="User.html" class="active">
+            <a href="User.php" class="active">
                 <span class="material-icons-sharp">person_outline</span>
                 <h3>User</h3>
             </a>
-            <a href="Announcement.html">
+            <a href="Announcement.php">
                 <span class="material-icons-sharp">campaign</span>
                 <h3>Announcement</h3>
             </a>
